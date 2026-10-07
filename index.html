@@ -51,12 +51,11 @@
         
         <!-- Header Section -->
         <div class="bg-brandPurple p-8 text-center relative overflow-hidden">
-            <!-- Dekorasi Simpel di Header (Aman dari bug layout) -->
+            <!-- Dekorasi Simpel di Header -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-bl-full"></div>
             <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-tr-full"></div>
             
             <div class="relative z-10 w-16 h-16 bg-brandLime rounded-2xl mx-auto flex items-center justify-center text-brandPurple shadow-lg mb-4 transform -rotate-3 hover:rotate-0 transition-transform">
-                <!-- Icon Search/Shield -->
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                 </svg>
@@ -81,7 +80,7 @@
 
             <div id="loadingState" class="hidden py-8 flex flex-col items-center justify-center">
                 <div class="w-10 h-10 border-4 border-brandPurpleLight border-t-brandPurple rounded-full animate-spin mb-3"></div>
-                <p class="text-sm text-gray-500 font-bold animate-pulse">Menarik data dari server...</p>
+                <p class="text-sm text-gray-500 font-bold animate-pulse">Menarik data dari database...</p>
             </div>
 
             <div id="resultState" class="hidden mt-6 animate-fade-in space-y-4">
@@ -91,7 +90,7 @@
                     <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
                         <div>
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">PRODUK</p>
-                            <p id="resProduct" class="font-bold text-sm text-darkText">Paket Premium 1 Bulan</p>
+                            <p id="resProduct" class="font-bold text-sm text-darkText">-</p>
                         </div>
                         <div id="resStatusBadge" class="px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider">
                             <!-- Status badge will be injected here -->
@@ -102,11 +101,11 @@
                     <div class="grid grid-cols-2 divide-x divide-gray-100 p-4">
                         <div class="pr-2">
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">TGL ORDER</p>
-                            <p id="resOrderDate" class="text-xs font-semibold text-darkText">01 Okt 2026</p>
+                            <p id="resOrderDate" class="text-xs font-semibold text-darkText">-</p>
                         </div>
                         <div class="pl-4">
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">TGL EXPIRED</p>
-                            <p id="resExpireDate" class="text-xs font-semibold text-darkText">01 Nov 2026</p>
+                            <p id="resExpireDate" class="text-xs font-semibold text-darkText">-</p>
                         </div>
                     </div>
                 </div>
@@ -115,13 +114,12 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div class="bg-brandPurpleLight p-3.5 rounded-2xl border border-brandPurple/10">
                         <p class="text-[10px] font-bold text-brandPurple uppercase tracking-wider mb-1">Sisa Durasi</p>
-                        <p id="resDuration" class="font-extrabold text-xl text-darkText">24<span class="text-sm font-semibold text-gray-600 ml-1">Hari</span></p>
+                        <p id="resDuration" class="font-extrabold text-xl text-darkText">-</p>
                     </div>
                     <div id="warrantyBox" class="bg-green-50 p-3.5 rounded-2xl border border-green-100">
                         <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Garansi</p>
                         <p id="resWarranty" class="font-extrabold text-sm text-darkText mt-1 flex items-center gap-1">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            Tersedia
+                            <!-- Warranty text here -->
                         </p>
                     </div>
                 </div>
@@ -168,56 +166,10 @@
             oscillator.stop(audioCtx.currentTime + 0.2);
         }
 
-        // Helper function to mock consistent data based on Order ID string
-        function generateMockData(idStr) {
-            let hash = 0;
-            for (let i = 0; i < idStr.length; i++) {
-                hash = ((hash << 5) - hash) + idStr.charCodeAt(i);
-                hash |= 0; 
-            }
-            hash = Math.abs(hash);
-
-            // 70% chance to be active, 30% expired. 
-            // Also explicitly make it expired if it contains 'EXP' for testing
-            let isActive = (hash % 10 < 7);
-            if(idStr.includes('EXP')) isActive = false;
-            
-            const products = ["Premium 1 Bulan", "Spotify Family Plan", "Netflix Anti Hold", "Canva Pro 1 Tahun"];
-            const productName = products[hash % products.length];
-            
-            // Set order date in the past (between 1 to 30 days ago)
-            const daysAgo = (hash % 30) + 1;
-            const orderDate = new Date();
-            orderDate.setDate(orderDate.getDate() - daysAgo);
-
-            // Set duration package (30, 90, or 365 days)
-            const packages = [30, 90, 365];
-            const durationPackage = packages[hash % packages.length];
-
-            // Calculate Expire Date
-            const expireDate = new Date(orderDate);
-            expireDate.setDate(expireDate.getDate() + durationPackage);
-
-            // Calculate remaining days
-            const today = new Date();
-            const timeDiff = expireDate.getTime() - today.getTime();
-            const remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-            // Adjust Active Status based on actual calculated date for consistency
-            if (remainingDays <= 0) isActive = false;
-
-            return {
-                isActive,
-                productName,
-                orderDate,
-                expireDate,
-                remainingDays: isActive ? remainingDays : 0,
-                isWarrantyActive: isActive && (remainingDays > 5) // Ex: warranty void in last 5 days
-            };
-        }
-
         // Helper to format date cleanly (e.g., 10 Okt 2026)
-        function formatDate(date) {
+        function formatDateStr(dateStr) {
+            const date = new Date(dateStr);
+            if(isNaN(date.getTime())) return dateStr; // Jaga-jaga kalau format error
             return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
         }
 
@@ -226,6 +178,13 @@
         const submitBtn = document.getElementById('submitBtn');
         const loading = document.getElementById('loadingState');
         const result = document.getElementById('resultState');
+
+        // =======================================================
+        // SETUP KONEKSI LANGSUNG KE GOOGLE SHEETS
+        // =======================================================
+        const sheetId = '1cl4CF0KJWAvqFsm98UkFeMkgGQWqQzs47MpCzWR7Zm8'; 
+        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+        const phoneNumber = '6281234567890'; // Nomor WA Admin
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -242,74 +201,121 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-50');
 
-            // Simulate server request (1 second)
-            setTimeout(() => {
-                loading.classList.add('hidden');
-                input.disabled = false;
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-50');
-
-                // Get Data
-                const data = generateMockData(orderId);
-
-                // Populate UI Data
-                document.getElementById('resProduct').textContent = data.productName;
-                document.getElementById('resOrderDate').textContent = formatDate(data.orderDate);
-                document.getElementById('resExpireDate').textContent = formatDate(data.expireDate);
-                document.getElementById('resDuration').innerHTML = `${data.remainingDays}<span class="text-sm font-semibold text-gray-500 ml-1">Hari</span>`;
-
-                const badge = document.getElementById('resStatusBadge');
-                const warrantyBox = document.getElementById('warrantyBox');
-                const warrantyText = document.getElementById('resWarranty');
-                const ctaBtn = document.getElementById('ctaBtn');
-                const ctaText = document.getElementById('ctaText');
-
-                const phoneNumber = '6281234567890'; // Ganti dengan nomor WA Admin
-
-                if (data.isActive) {
-                    // Scenario: Active
-                    playSound('pop'); // Success sound
+            // Menarik data langsung dari Google Sheets via CSV Export
+            fetch(sheetUrl)
+                .then(res => {
+                    if(!res.ok) throw new Error("Gagal terhubung ke Sheets");
+                    return res.text();
+                })
+                .then(csvText => {
+                    const rows = csvText.split('\n');
+                    let foundData = null;
                     
-                    badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-brandLime text-darkText';
-                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-darkText animate-pulse"></span> AKTIF`;
-
-                    if(data.isWarrantyActive) {
-                        warrantyBox.className = 'bg-green-50 p-3.5 rounded-2xl border border-green-100';
-                        warrantyText.className = 'font-extrabold text-sm text-green-700 mt-1 flex items-center gap-1';
-                        warrantyText.innerHTML = `<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Tersedia`;
-                    } else {
-                        warrantyBox.className = 'bg-orange-50 p-3.5 rounded-2xl border border-orange-100';
-                        warrantyText.className = 'font-extrabold text-sm text-orange-700 mt-1 flex items-center gap-1';
-                        warrantyText.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Hampir Habis`;
+                    // Kita cari ID-nya. Mulai dari i=1 karena index 0 itu header (judul kolom)
+                    for(let i = 1; i < rows.length; i++) {
+                        // Memisahkan kolom dengan aman meski ada tanda kutip
+                        const cols = rows[i].split(',').map(c => c.replace(/(^"|"$)/g, '').trim());
+                        
+                        if(cols[0] && cols[0].toUpperCase() === orderId) {
+                            foundData = {
+                                id: cols[0],
+                                produk: cols[1],
+                                tgl_order: cols[2],
+                                tgl_expired: cols[3]
+                            };
+                            break;
+                        }
                     }
 
-                    // Set CTA for Support
-                    ctaBtn.className = 'w-full mt-2 py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md transform hover:-translate-y-1 bg-white border-2 border-brandPurple text-brandPurple hover:bg-brandPurpleLight';
-                    ctaText.textContent = 'Klaim Garansi / Bantuan';
-                    const msg = encodeURIComponent(`Halo min, saya ingin klaim garansi atau minta bantuan untuk pesanan ${orderId} (${data.productName}).`);
-                    ctaBtn.href = `https://wa.me/${phoneNumber}?text=${msg}`;
+                    // Selesai loading
+                    loading.classList.add('hidden');
+                    input.disabled = false;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50');
 
-                } else {
-                    // Scenario: Expired
-                    playSound('error'); // Error sound
-                    
-                    badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-red-100 text-red-700';
-                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> EXPIRED`;
+                    if(foundData) {
+                        // Hitung tanggal
+                        const tglExpired = new Date(foundData.tgl_expired);
+                        const today = new Date();
+                        today.setHours(0,0,0,0);
+                        
+                        let remainingDays = 0;
+                        let isActive = false;
+                        
+                        if(!isNaN(tglExpired.getTime())) {
+                            tglExpired.setHours(0,0,0,0);
+                            const timeDiff = tglExpired.getTime() - today.getTime();
+                            remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                            isActive = remainingDays >= 0;
+                        }
 
-                    warrantyBox.className = 'bg-gray-50 p-3.5 rounded-2xl border border-gray-200';
-                    warrantyText.className = 'font-extrabold text-sm text-gray-400 mt-1 flex items-center gap-1';
-                    warrantyText.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Hangus`;
+                        // Update tampilan
+                        document.getElementById('resProduct').textContent = foundData.produk;
+                        document.getElementById('resOrderDate').textContent = formatDateStr(foundData.tgl_order);
+                        document.getElementById('resExpireDate').textContent = formatDateStr(foundData.tgl_expired);
+                        document.getElementById('resDuration').innerHTML = `${remainingDays}<span class="text-sm font-semibold text-gray-500 ml-1">Hari</span>`;
 
-                    // Set CTA for Renew
-                    ctaBtn.className = 'w-full mt-2 py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md transform hover:-translate-y-1 bg-waGreen text-white hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/30';
-                    ctaText.textContent = 'Perpanjang Langganan';
-                    const msg = encodeURIComponent(`Halo min, langganan saya untuk ${orderId} (${data.productName}) sudah habis. Saya mau perpanjang.`);
-                    ctaBtn.href = `https://wa.me/${phoneNumber}?text=${msg}`;
-                }
+                        const badge = document.getElementById('resStatusBadge');
+                        const warrantyBox = document.getElementById('warrantyBox');
+                        const warrantyText = document.getElementById('resWarranty');
+                        const ctaBtn = document.getElementById('ctaBtn');
+                        const ctaText = document.getElementById('ctaText');
 
-                // Show Results
-                result.classList.remove('hidden');
-            }, 1000);
+                        // Misal garansi hangus jika sisa kurang dari 5 hari
+                        const isWarrantyActive = isActive && (remainingDays > 5);
+
+                        if (isActive) {
+                            playSound('pop'); 
+                            
+                            badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-brandLime text-darkText';
+                            badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-darkText animate-pulse"></span> AKTIF`;
+
+                            if(isWarrantyActive) {
+                                warrantyBox.className = 'bg-green-50 p-3.5 rounded-2xl border border-green-100';
+                                warrantyText.className = 'font-extrabold text-sm text-green-700 mt-1 flex items-center gap-1';
+                                warrantyText.innerHTML = `<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Tersedia`;
+                            } else {
+                                warrantyBox.className = 'bg-orange-50 p-3.5 rounded-2xl border border-orange-100';
+                                warrantyText.className = 'font-extrabold text-sm text-orange-700 mt-1 flex items-center gap-1';
+                                warrantyText.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Hampir Habis`;
+                            }
+
+                            ctaBtn.className = 'w-full mt-2 py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md transform hover:-translate-y-1 bg-white border-2 border-brandPurple text-brandPurple hover:bg-brandPurpleLight';
+                            ctaText.textContent = 'Klaim Garansi / Bantuan';
+                            const msg = encodeURIComponent(`Halo min, saya ingin klaim garansi atau minta bantuan untuk pesanan ${foundData.id} (${foundData.produk}).`);
+                            ctaBtn.href = `https://wa.me/${phoneNumber}?text=${msg}`;
+
+                        } else {
+                            playSound('error'); 
+                            
+                            badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-red-100 text-red-700';
+                            badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> EXPIRED`;
+
+                            warrantyBox.className = 'bg-gray-50 p-3.5 rounded-2xl border border-gray-200';
+                            warrantyText.className = 'font-extrabold text-sm text-gray-400 mt-1 flex items-center gap-1';
+                            warrantyText.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Hangus`;
+
+                            ctaBtn.className = 'w-full mt-2 py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md transform hover:-translate-y-1 bg-waGreen text-white hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/30';
+                            ctaText.textContent = 'Perpanjang Langganan';
+                            const msg = encodeURIComponent(`Halo min, langganan saya untuk pesanan ${foundData.id} (${foundData.produk}) sudah habis. Saya mau perpanjang.`);
+                            ctaBtn.href = `https://wa.me/${phoneNumber}?text=${msg}`;
+                        }
+
+                        // Tampilkan hasil
+                        result.classList.remove('hidden');
+                    } else {
+                        playSound('error');
+                        alert('Order ID tidak ditemukan! Cek kembali ID pesanannya ya Kak.');
+                    }
+                })
+                .catch(err => {
+                    loading.classList.add('hidden');
+                    input.disabled = false;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50');
+                    playSound('error');
+                    alert('Gagal mengambil data. Pastikan koneksi internet lancar dan pengaturan Share di Google Sheets sudah "Siapa Saja".');
+                });
         });
     </script>
 </body>
