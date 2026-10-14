@@ -18,47 +18,27 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                        brandPurple: '#5338FF',
-                        brandPurpleLight: '#EEECFF',
-                        brandLime: '#CCFF00',
-                        darkText: '#0F172A',
-                        softBg: '#F8FAFC',
-                        waGreen: '#25D366'
-                    }
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { brandPurple: '#5338FF', brandPurpleLight: '#EEECFF', brandLime: '#CCFF00', darkText: '#0F172A', softBg: '#F8FAFC', waGreen: '#25D366' }
                 }
             }
         }
     </script>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
     </style>
 </head>
 
 <body class="bg-softBg text-darkText font-sans min-h-screen flex flex-col items-center justify-center p-4 sm:p-8">
     
-    <!-- Main Card Container -->
     <main class="bg-white rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] w-full max-w-md overflow-hidden border border-gray-100 relative">
-        
-        <!-- Header Section -->
         <div class="bg-brandPurple p-8 text-center relative overflow-hidden">
-            <!-- Dekorasi Simpel di Header -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-bl-full"></div>
             <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-tr-full"></div>
             
             <div class="relative z-10 w-16 h-16 bg-brandLime rounded-2xl mx-auto flex items-center justify-center text-brandPurple shadow-lg mb-4 transform -rotate-3 hover:rotate-0 transition-transform">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
             </div>
             <h1 class="relative z-10 text-2xl font-extrabold text-white mb-1">Lacak Pesanan</h1>
             <p class="relative z-10 text-brandPurpleLight text-sm font-medium">Cek masa aktif dan status garansi layananmu</p>
@@ -66,13 +46,8 @@
 
         <div class="p-6 sm:p-8">
             <form id="checkForm" class="space-y-4">
-                <div class="relative">
-                    <input type="text" id="orderId" 
-                        class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:outline-none focus:border-brandPurple focus:ring-4 focus:ring-brandPurpleLight transition-all font-bold text-center uppercase tracking-wider text-lg placeholder-gray-300" 
-                        placeholder="MASUKKAN ID ORDER" autocomplete="off" required>
-                </div>
-                <button type="submit" id="submitBtn"
-                    class="w-full bg-darkText hover:bg-brandPurple text-white hover:text-brandLime font-bold py-4 px-4 rounded-xl transition-all duration-300 shadow-md flex items-center justify-center gap-2 group">
+                <input type="text" id="orderId" class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:bg-white focus:outline-none focus:border-brandPurple focus:ring-4 focus:ring-brandPurpleLight transition-all font-bold text-center uppercase tracking-wider text-lg placeholder-gray-300" placeholder="MASUKKAN ID ORDER" required autocomplete="off">
+                <button type="submit" id="submitBtn" class="w-full bg-darkText hover:bg-brandPurple text-white hover:text-brandLime font-bold py-4 px-4 rounded-xl transition-all duration-300 shadow-md flex items-center justify-center gap-2 group">
                     <span>Periksa Status</span>
                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
@@ -84,20 +59,15 @@
             </div>
 
             <div id="resultState" class="hidden mt-6 animate-fade-in space-y-4">
-                
-                <!-- Status & Produk -->
                 <div class="flex flex-col border border-gray-100 rounded-2xl bg-white shadow-sm overflow-hidden">
                     <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
                         <div>
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">PRODUK</p>
                             <p id="resProduct" class="font-bold text-sm text-darkText">-</p>
                         </div>
-                        <div id="resStatusBadge" class="px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider">
-                            <!-- Status badge will be injected here -->
-                        </div>
+                        <div id="resStatusBadge" class="px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider"></div>
                     </div>
 
-                    <!-- Detail Info Grid -->
                     <div class="grid grid-cols-2 divide-x divide-gray-100 p-4">
                         <div class="pr-2">
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">TGL ORDER</p>
@@ -110,7 +80,6 @@
                     </div>
                 </div>
 
-                <!-- Durasi & Garansi Highlight -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="bg-brandPurpleLight p-3.5 rounded-2xl border border-brandPurple/10">
                         <p class="text-[10px] font-bold text-brandPurple uppercase tracking-wider mb-1">Sisa Durasi</p>
@@ -118,9 +87,7 @@
                     </div>
                     <div id="warrantyBox" class="bg-green-50 p-3.5 rounded-2xl border border-green-100">
                         <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Garansi</p>
-                        <p id="resWarranty" class="font-extrabold text-sm text-darkText mt-1 flex items-center gap-1">
-                            <!-- Warranty text here -->
-                        </p>
+                        <p id="resWarranty" class="font-extrabold text-sm text-darkText mt-1 flex items-center gap-1"></p>
                     </div>
                 </div>
 
@@ -128,13 +95,11 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     <span id="ctaText">Klaim Garansi / Bantuan</span>
                 </a>
-
             </div>
         </div>
     </main>
 
     <script>
-        // Web Audio API Configuration
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
 
@@ -166,10 +131,27 @@
             oscillator.stop(audioCtx.currentTime + 0.2);
         }
 
-        // Helper to format date cleanly (e.g., 10 Okt 2026)
+        // FUNGSI PINTAR UNTUK MENDETEKSI FORMAT TANGGAL INDONESIA (DD/MM/YYYY)
+        function parseIndonesianDate(dateStr) {
+            if (!dateStr) return new Date(NaN);
+            dateStr = dateStr.trim();
+            
+            // Cek jika menggunakan garis miring (contoh: 13/10/2026)
+            if (dateStr.includes('/')) {
+                const parts = dateStr.split('/');
+                if (parts.length === 3) {
+                    // Terjemahkan DD/MM/YYYY menjadi standar sistem YYYY-MM-DD
+                    return new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}T00:00:00`);
+                }
+            }
+            // Fallback ke pembacaan standar
+            return new Date(dateStr);
+        }
+
+        // Format tanggal untuk tampilan UI
         function formatDateStr(dateStr) {
-            const date = new Date(dateStr);
-            if(isNaN(date.getTime())) return dateStr; // Jaga-jaga kalau format error
+            const date = parseIndonesianDate(dateStr);
+            if(isNaN(date.getTime())) return dateStr;
             return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
         }
 
@@ -179,43 +161,34 @@
         const loading = document.getElementById('loadingState');
         const result = document.getElementById('resultState');
 
-        // =======================================================
-        // SETUP KONEKSI LANGSUNG KE GOOGLE SHEETS
-        // =======================================================
         const sheetId = '1cl4CF0KJWAvqFsm98UkFeMkgGQWqQzs47MpCzWR7Zm8'; 
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
-        const phoneNumber = '6281299961001'; // Nomor WA Admin
+        const phoneNumber = '6281234567890'; // Nomor WA Admin
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const orderId = input.value.trim().toUpperCase();
             if(!orderId) return;
 
-            // Play submit sound
             playSound('pop');
 
-            // UI Reset
             result.classList.add('hidden');
             loading.classList.remove('hidden');
             input.disabled = true;
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-50');
 
-            // Menarik data langsung dari Google Sheets via CSV Export
             fetch(sheetUrl)
                 .then(res => {
-                    if(!res.ok) throw new Error("Gagal terhubung ke Sheets");
+                    if(!res.ok) throw new Error("Gagal terhubung");
                     return res.text();
                 })
                 .then(csvText => {
                     const rows = csvText.split('\n');
                     let foundData = null;
                     
-                    // Kita cari ID-nya. Mulai dari i=1 karena index 0 itu header (judul kolom)
                     for(let i = 1; i < rows.length; i++) {
-                        // Memisahkan kolom dengan aman meski ada tanda kutip
                         const cols = rows[i].split(',').map(c => c.replace(/(^"|"$)/g, '').trim());
-                        
                         if(cols[0] && cols[0].toUpperCase() === orderId) {
                             foundData = {
                                 id: cols[0],
@@ -227,15 +200,13 @@
                         }
                     }
 
-                    // Selesai loading
                     loading.classList.add('hidden');
                     input.disabled = false;
                     submitBtn.disabled = false;
                     submitBtn.classList.remove('opacity-50');
 
                     if(foundData) {
-                        // Hitung tanggal
-                        const tglExpired = new Date(foundData.tgl_expired);
+                        const tglExpired = parseIndonesianDate(foundData.tgl_expired);
                         const today = new Date();
                         today.setHours(0,0,0,0);
                         
@@ -249,7 +220,6 @@
                             isActive = remainingDays >= 0;
                         }
 
-                        // Update tampilan
                         document.getElementById('resProduct').textContent = foundData.produk;
                         document.getElementById('resOrderDate').textContent = formatDateStr(foundData.tgl_order);
                         document.getElementById('resExpireDate').textContent = formatDateStr(foundData.tgl_expired);
@@ -261,12 +231,10 @@
                         const ctaBtn = document.getElementById('ctaBtn');
                         const ctaText = document.getElementById('ctaText');
 
-                        // Misal garansi hangus jika sisa kurang dari 5 hari
                         const isWarrantyActive = isActive && (remainingDays > 5);
 
                         if (isActive) {
                             playSound('pop'); 
-                            
                             badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-brandLime text-darkText';
                             badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-darkText animate-pulse"></span> AKTIF`;
 
@@ -287,7 +255,6 @@
 
                         } else {
                             playSound('error'); 
-                            
                             badge.className = 'px-3 py-1 text-[11px] font-extrabold rounded-md flex items-center gap-1.5 uppercase tracking-wider bg-red-100 text-red-700';
                             badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> EXPIRED`;
 
@@ -300,12 +267,10 @@
                             const msg = encodeURIComponent(`Halo min, langganan saya untuk pesanan ${foundData.id} (${foundData.produk}) sudah habis. Saya mau perpanjang.`);
                             ctaBtn.href = `https://wa.me/${phoneNumber}?text=${msg}`;
                         }
-
-                        // Tampilkan hasil
                         result.classList.remove('hidden');
                     } else {
                         playSound('error');
-                        alert('Order ID tidak ditemukan! Cek kembali ID pesanannya ya Kak.');
+                        alert('Order ID tidak ditemukan!');
                     }
                 })
                 .catch(err => {
@@ -314,7 +279,7 @@
                     submitBtn.disabled = false;
                     submitBtn.classList.remove('opacity-50');
                     playSound('error');
-                    alert('Gagal mengambil data. Pastikan koneksi internet lancar dan pengaturan Share di Google Sheets sudah "Siapa Saja".');
+                    alert('Gagal mengambil data.');
                 });
         });
     </script>
